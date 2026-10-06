@@ -1,0 +1,86 @@
+<app-navbar-admin></app-navbar-admin>
+<br>
+<h2 class="text-center">Documentos de beneficiarios</h2>
+<div class="padre">
+  <div class="p1">
+    <p-panel class="card tabla" header="Nombre del beneficiario: {{persona.nombres}} {{persona.apellidos}}" [toggleable]="true"> 
+        <h6 class="text-center">Cargar documentos</h6>
+        <div class="form-floating mb-3 tabla">
+          <p-dropdown [options]="tipos" [(ngModel)]="tipo" placeholder="Seleccione el tipo de documento"
+          optionLabel="tip" [style]="{'width': '100%'}" [filter]="true">
+          </p-dropdown>
+        </div>
+        <div  class="custom-input-file mb-3 tabla">
+          <input type="file" id="fichero-tarifas" class="input-file" name="files" accept=".jpg, .jpeg, .png"
+          (change)="selectFile($event)"> 
+          {{texto}}
+        </div>
+        <p-messages [(value)]="msgs"></p-messages>
+        <div class="prin">
+          <div class="ter">
+            <button pButton type="button" label="Cancelar" class="p-button-danger p-button-outlined"
+            (click)='cancelar()'></button>
+          </div>
+          <div class="sec">
+            <button pButton type="button" label="Guardar" class="p-button-outlined" (click)='postDocumento()'></button>
+          </div>
+        </div>
+    </p-panel>
+  </div>
+  <div class="p2">
+    <div class="tabla">
+      <p-table #dt [rows]="10" [scrollable]="true" class="table table-responsive" scrollHeight="450px"
+        [paginator]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [rowHover]="true"
+        [autoLayout]="true" [responsive]="true"
+        [globalFilterFields]="['cedula','nombres','apellidos','direccion','celular','correo','fechaNacimiento','edad']"
+        [value]="listaDocumentos">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nombre del archivo</th>
+            <th>Tipo de Documento</th>
+            <th>Ver archivo</th>
+            <th>Eliminar</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user let-rowData let-rowIndex="rowIndex">
+          <tr class="p-selectable-row">
+            <td>{{user.nombreArchivo}}</td>
+            <td>{{user.tipoDocumento}}</td>
+            <td>
+              <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-outlined"
+              (click)="onDownloadFile(user.nombreArchivo)" pTooltip="Ver" tooltipPosition="top"></button>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-outlined"
+                (click)="modalEliminar(user)" pTooltip="Eliminar"
+                tooltipPosition="top"></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No se encontraron documentos.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Advertencia" [(visible)]="displayEliminar" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <b><p>¿Está seguro que desea eliminar esta observación?</p></b>
+    <p>Esta acción no se puede revertir</p>
+    <ng-template pTemplate="footer">
+        <div class="prin">
+            <div class="ter">
+                <button pButton type="button" label="Cancelar" class="p-button-danger p-button-outlined"
+                    (click)='displayEliminar=false'></button>
+            </div>
+            <div class="sec">
+                <button pButton type="button" label="Continuar" class="p-button-outlined"
+                    (click)='eliminar()'></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

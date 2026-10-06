@@ -1,0 +1,139 @@
+<app-navbar-admin></app-navbar-admin>
+<br />
+<div _ngcontent-ygo-c128 class="container">
+  <div _ngcontent-ygo-c128 class="modal-body">
+    <div _ngcontent-kqj-c128 class="card-header">
+      <div class="modal-header text-center">
+        <h3 class="text-center"><b>Registro de Especialidades</b></h3>
+      </div>
+      <br />
+
+      <div class="form-group">
+        <label for="nombreEspecialidad"><b>Nombre de la Especialidad:</b></label>
+        <input type="text" [(ngModel)]="selectedEspecialidad.nombreEspecialidad" class="form-control"
+          id="nombreEspecialidad" nombre="nombreEspecialidad" placeholder="Nombre"/>
+      </div>
+
+      <div class="form-group">
+        <label for="centroMedico"><b>Seleccione el Centro Médico:</b></label>
+        <div class="dropdown show">
+          <p-dropdown [options]="centro" [(ngModel)]="nombreSeCe"
+                placeholder="Seleccione el nombre de la especialidad" optionLabel="nombreCentroMedico"
+                [style]="{'width': '100%'}">
+            </p-dropdown>
+
+          <!-- <select [(ngModel)]="nombreSeCe" class="btn btn-secondary dropdown-toggle" id="nomcentro" forControlName="nomcentro">
+            <option *ngFor="let c of centro" class="dropdown-item">
+              {{ c.nombreCentroMedico }}
+            </option>s
+            
+          </select> -->
+        </div>
+
+        <br />
+
+        <div class="container animated d-flex justify-content-center animated fadeIn">
+          <i><span class="response" *ngIf="response_condicion == true">{{response_msg}}</span></i>
+        </div>
+
+        <br />
+        <br />
+      <div class="card-footer">
+        <div class="botones">
+          <div class="row">
+            <div class="col d-grid gap-2">
+              <button class="btn btn-outline-success btnfooter" (click)="addOrEdit()" type="button" style="margin-left: 10px">
+                Guardar <i class="pi pi-check"></i>
+              </button>
+            </div>
+
+            <div class="col d-grid gap-2">
+              <button class="btn btn-outline-danger btnfooter" type="submit" routerLink="/centromedico-listar" style="margin-left: 10px">
+                <i class="pi pi-angle-double-left"></i> Regresar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+
+        <div class="modal-header text-center">
+          <h3 class="text-center"><b>Listado de Especialidades</b></h3>
+        </div>
+        <br />
+
+        <p-table #dt [value]="esp" dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,15,60]" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [filterDelay]="0" [globalFilterFields]="['centroMedico']" (onFilter)="onFilter($event, dt)">
+            
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+                <span class="buscar" style="margin-left: 60%">
+                  <i class="pi pi-search"></i>
+                  <input class="btnn" type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar por centro médico:" />
+                </span>
+                <br>
+                <br>
+                
+                               
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="idEspecialidad">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            ID
+                            <p-sortIcon field="idEspecialidad"></p-sortIcon>
+                            <p-columnFilter type="text" field="idEspecialidad" display="menu" class="p-ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="nombreEspecialidad">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            ESPECIALIDAD
+                            <p-sortIcon field="nombreEspecialidad"></p-sortIcon>
+                            <p-columnFilter type="text" field="nombreEspecialidad" display="menu" class="p-ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="centroMedico">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            CENTRO MEDICO
+                            <p-sortIcon field="centroMedico"></p-sortIcon>
+                            <p-columnFilter type="text" field="centroMedico" display="menu" class="p-ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th>
+                      <button class="btn btn-outline-primary btnfooter" (click)="crearReporte()" type="button">
+                      Reporte <i class="pi pi-file-pdf"></i>
+                      </button>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-e>
+                <tr class="p-selectable-row">
+                   <td>{{ e.idEspecialidad }}</td>
+                <td>{{ e.nombreEspecialidad }}</td>
+                <td>{{ e.centroMedico }}</td>
+                <td>
+                  <div style="margin-left: 15px">
+                  <button (click)="openForEdit(e)" pButton pRipple type="button" icon="pi pi-pencil"
+                        class="p-button-rounded p-button-warning p-button-outlined p-button p-component p-button-icon-only"></button>
+
+                    <button (click)="deleteEspecialidad(e)" pButton pRipple type="button" icon="pi pi-trash" 
+                    class="p-button-rounded p-button-danger p-button-outlined p-button p-component p-button-icon-only"></button>
+                  </div>
+                </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="8">No se encontro donaciones</td>
+                </tr>
+              </ng-template>
+          </p-table>
+
+
+      </div>
+    </div>
+  </div>
+</div>

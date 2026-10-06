@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="padre">
+        <div class="container zoom">
+            <div class="izq">
+                <img src="assets/img/descargar.png" alt="logo" class="image">
+            </div>
+            <div class="der">
+                <div class="form-floating mb-3">
+                    <label for="floatingInput"><b>Número de cédula</b></label>
+                    <input class="form-control" type="text" pKeyFilter="int" maxlength="13" minlength="10"
+                        id="user.usuarioCedula" placeholder="Número de cédula" [(ngModel)]="user.usuarioCedula"
+                        name="user.usuarioCedula" required />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="floatingInput"><b>Contraseña</b></label>
+                    <input class="form-control" type="password" id="user.usuarioContrasenia" placeholder="Contraseña"
+                        [(ngModel)]="user.usuarioContrasenia" name="user.usuarioContrasenia" required />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="floatingInput"><b>Tipo de usuario</b></label>
+                    <p-dropdown [options]="tipos" [(ngModel)]="tipo" placeholder="Tipo de Usuario" optionLabel="string"
+                        [style]="{ width: '100%' }" (onChange)="onChange($event)">
+                    </p-dropdown>
+                </div>
+                <div class="boton">
+                    <button pButton type="button" label="Iniciar sesión" class="p-button-outlined"
+                        (click)='validar()'></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

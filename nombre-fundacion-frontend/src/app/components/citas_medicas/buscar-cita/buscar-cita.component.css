@@ -1,0 +1,30 @@
+th, td {
+    width: 120px;
+    word-wrap: break-word;
+}
+.tabla {
+    padding: 1em;
+}
+.tables {
+  border: 1px solid black;
+}
+.false-icon {
+  color: #fa0e0e;
+}
+  
+.true-icon {
+  color: green;
+}
+
+.false-icon, .true-icon {
+  font-size: 28px;
+}
+.pan{
+  display: flex;
+  justify-content: center;
+}
+.grid-container1 {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  padding: 1em;
+}

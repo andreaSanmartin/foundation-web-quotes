@@ -1,0 +1,259 @@
+<app-navbar-admin></app-navbar-admin>
+<br>
+<h2 class="text-center">Citas médicas</h2>
+<div class="container animated d-flex justify-content-center animated fadeIn">
+    <p-panel class="card" id="panel" header="Agendamiento" [toggleable]="true">
+
+        <div class="form-group ">
+            <label for="cedulpa"> <b>Número de cédula del beneficiario * </b></label>
+            <input type="text" class="form-control" [formControl]="cedulapa" id="paciente" required
+                [(ngModel)]="cedulaPaciente" name="paciente"
+                placeholder="Cédula del beneficiario para quien se registra la cita médica">
+            <p><small>Por favor asegurese de verificar si el número de cédula corresponde con el beneficiario al que desea agendar la cita médica dando clic en el botón "Verificar información"</small></p>
+            <button pButton type="button" label="Verificar información" class="p-button-outlined"
+                [disabled]="cedulapa.invalid" (click)='buscarPersona()'>
+            </button>
+            <p-dialog header="Información encontrada para el beneficiario con el número de cédula ingresado" [(visible)]="personaModal" [modal]="true" [style]="{width: '50vw'}"
+                [draggable]="false" [resizable]="false">
+                <div class="form-floating mb-3">
+                    <label for="floatingInput"><b>Nombre completo</b></label>
+                    <input type="text" class="form-control" [(ngModel)]="nombreper" readonly>
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="email" class="form-label"><b>Correo electrónico</b></label>
+                    <input type="email" class="form-control" id="email" [(ngModel)]="correoper" readonly>
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="examplePhone" class="form-label"><b>Teléfono</b></label>
+                    <input type="text" class="form-control" [(ngModel)]="telefonoper" readonly>
+                </div>
+                <div class="form-floating mb-0">
+                    <label><b>¿Es esta información correcta?</b></label>
+                </div>
+                <ng-template pTemplate="footer">
+                    <div class="grid-container1">
+                        <div class="bt">
+                            <button pButton type="button" label="Información correcta" icon="pi pi-check"
+                                class="p-button-outlined" (click)="personaModal=false"></button>
+                        </div>
+                        <div class="bt">
+                            <button pButton type="button" label="No, volver a intentar" icon="pi pi-info"
+                                class="p-button-outlined p-button-help" (click)="personaModal=false"></button>
+                        </div>
+                        <div class="bt">
+                            <button pButton type="button" label="Registrar beneficiario" icon="pi pi-user-plus"
+                                class="p-button-outlined p-button-danger" (click)='registrar()'></button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dialog>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcionCitaMedica"><b>Descripción *</b></label>
+            <input type="text" class="form-control" required [(ngModel)]="cita.descripcionCitaMedica"
+                placeholder="Descripción:" />
+        </div>
+
+        <div class="form-group">
+            <label for="fechaCitaMedica"><b>Fecha *</b></label>
+            <input [(ngModel)]="cita.fechaCitaMedica" name="fechaCitaMedica" id="cita.fechaCitaMedica"
+                type="datetime-local" class="form-control" placeholder="Fecha de la cita medica" required>
+        </div>
+
+        <div class="form-group ">
+            <label for="mensaje"><b>Correo electrónico del beneficiario a quien se le enviará el recordatorio *</b></label>
+            <input type="text" class="form-control" id="mensaje" required [(ngModel)]="cita.mensaje" name="mensaje"
+                placeholder="Se le enviará un correo electrónico con los datos de la cita">
+        </div>
+
+        <div class="form-group ">
+            <label for="acompanante"> <b>Número de cédula del trabajador de la fundación que acompañará al beneficiario a la cita médica *</b></label>
+            <input type="text" class="form-control" id="acompanante" [formControl]="cedulaac" required
+                [(ngModel)]="cedulaAcom" name="acompanante"
+                placeholder="Cédula del trabajador de la fundación que asistirá a la cita médica con el beneficiario">
+            <p><small>Por favor asegurese de verificar si el número de cédula corresponde con el trabajador de la fundación que acompañará al beneficiario a la cita médica dando clic en el botón "Verificar información"</small></p>
+            <button pButton type="button" label="Verificar información" class="p-button-outlined"
+                [disabled]="cedulaac.invalid" (click)='buscarAcompa()'>
+            </button>
+            <p-dialog header="Información encontrada para el número de cédula ingresado" [(visible)]="acompaModal" [modal]="true" [style]="{width: '50vw'}"
+                [draggable]="false" [resizable]="false">
+                <div class="form-floating mb-3">
+                    <label for="nombre" class="form-label"><b>Nombre</b></label>
+                    <input type="text" class="form-control" [(ngModel)]="nombreper2" readonly>
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="email" class="form-label"><b>Correo</b></label>
+                    <input type="email" class="form-control" id="email" [(ngModel)]="correoper2" readonly>
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="examplePhone" class="form-label"><b>Teléfono</b></label>
+                    <input type="text" class="form-control" [(ngModel)]="telefonoper2" readonly>
+                </div>
+                <div class="form-floating mb-0">
+                    <label><b>¿Es esta información correcta?</b></label>
+                </div>
+                <ng-template pTemplate="footer">
+                    <div class="grid-container1">
+                        <div class="bt">
+                            <button pButton type="button" label="Información correcta" icon="pi pi-check"
+                                class="p-button-outlined" (click)="acompaModal=false"></button>
+                        </div>
+                        <div class="bt">
+                            <button pButton type="button" label="No, volver a intentar" icon="pi pi-info"
+                                class="p-button-outlined p-button-help" (click)="acompaModal=false"></button>
+                        </div>
+                        <div class="bt">
+                            <button pButton type="button" label="Registrar beneficiario" icon="pi pi-user-plus"
+                                class="p-button-outlined p-button-danger" (click)='registrarU()'></button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dialog>
+        </div>
+
+        <div class="form-group ">
+            <label for="emailextra"><b>Correo electrónico del trabajador al que se enviará el recordatorio *</b></label>
+            <input type="text" class="form-control" id="emailextra" required [(ngModel)]="emailextra" name="emailextra"
+                placeholder="Se le enviará un correo electrónico con los datos de la cita">
+        </div>
+
+        <div class="form-group">
+            <label for="name"><b>Número de cédula del usuario que registra la cita *</b></label>
+            <input type="text" class="form-control" id="cedUser" [(ngModel)]="cedUser" name="cedUser" readonly>
+        </div>
+
+        <div class="form-group ">
+            <label><b>Seleccione el centro médico *</b></label>
+            <br>
+            <p-dropdown [options]="centros" [(ngModel)]="nombreSeCe" placeholder="Seleccione el centro médico"
+                optionLabel="nombreCentroMedico" [style]="{'width': '100%'}">
+            </p-dropdown>
+        </div>
+
+        <div class="form-group ">
+            <label><b>Seleccione la especialidad *</b></label>
+            <br>
+            <p-dropdown [options]="especialidad" [(ngModel)]="nombreSeEspecialidad"
+                placeholder="Seleccione la especialidad" optionLabel="nombreEspecialidad" [style]="{'width': '100%'}">
+            </p-dropdown>
+        </div>
+
+        <div class="form-group ">
+            <label for="name "><b>Observaciones a tener en cuenta para la cita *</b></label>
+            <input type="text " class="form-control " id="nota " required [(ngModel)]="cita.nota " name="nota "
+                placeholder="Ejemplo: Llegar 10 minutos antes, ir en ayunas, etc.">
+        </div>
+        <div class="prin">
+            <div class="sec">
+                <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-outlined"
+                    (click)='save()'>
+                </button>
+            </div>
+            <div class="ter">
+                <button pButton type="button" label="Generar PDF" icon="pi pi-file-pdf"
+                    class="p-button-outlined p-button-danger" (click)='genereport()'>
+                </button>
+            </div>
+        </div>
+        <br>
+    </p-panel>
+</div>
+<br />
+<div class="tabla">
+    <div class="tables">
+        <p-table #dt [value]="citaM" dataKey="id" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true" [scrollable]="true" scrollHeight="400px"
+            currentPageReportTemplate="Se muestra {first} a {last} de {totalRecords} registros" [filterDelay]="0"
+            [globalFilterFields]="['#','descripcionCitaMedica','paciente', 'acompaniante', 'trabajadorFundacion', 'centroMedico', 
+            'especialidad', 'fechaCitaMedica']">
+            <ng-template pTemplate="caption">
+                <div class="prin">
+                    <div class="sec">
+                        <span class="p-input-icon-right">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar" />
+                        </span>
+                    </div>
+                    <div class="ter">
+                        <button type="button " class="btn btn-secondary btn-lg " (click)="buscar()">Buscar por
+                            *</button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Descripción de la Cita Medica</th>
+                    <th>Fecha y hora</th>
+                    <th>Paciente</th>
+                    <th>Acompañante</th>
+                    <th>Correo</th>
+                    <th>Usuario que registró</th>
+                    <th>Centro Médico</th>
+                    <th>Especialidad</th>
+                    <th>Observaciones</th>
+                    <th>Opciones</th>
+                    <th>Asistencia</th>
+                    <th>Cambiar Asistencia</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-u>
+                <tr class="p-selectable-row">
+                    <td>
+                        {{ u.descripcionCitaMedica}}
+                    </td>
+                    <td>
+                        {{ u.fechaCitaMedica.substring(0,10)}} {{ u.fechaCitaMedica.substring(11) }}
+                    </td>
+                    <td>
+                        {{ u.paciente }}
+                    </td>
+                    <td>
+                        {{ u.acompaniante }}
+                    </td>
+                    <td>
+                        {{ u.mensaje }}
+                    </td>
+                    <td>
+                        {{ u.trabajadorFundacion }}
+                    </td>
+                    <td>
+                        {{ u.centroMedico }}
+                    </td>
+                    <td>
+                        {{ u.especialidad }}
+                    </td>
+                    <td>
+                        {{ u.nota }}
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editar"
+                            tooltipPosition="left" class="p-button-rounded p-button-outlined" (click)="openForEdit(u)">
+                        </button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" pTooltip="Eliminar"
+                            tooltipPosition="left" class="p-button-rounded p-button-danger p-button-outlined"
+                            (click)="deleteCita(u)">
+                        </button>
+                    </td>
+                    <td>
+                        <i class="pi"
+                            [ngClass]="{'true-icon pi-check-circle': u.asistencia, 'false-icon pi-times-circle': !u.asistencia}"></i>
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-arrow-left"
+                            class="p-button-rounded p-button-outlined" pTooltip="Cambiar asistencia"
+                            tooltipPosition="left" (click)="actualizarAsistencia(u.idCitasMedicas, u)">
+                        </button>
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No se encontraron citas médicas agendadas</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
