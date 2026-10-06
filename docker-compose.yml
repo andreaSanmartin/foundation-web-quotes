@@ -1,0 +1,49 @@
+# Levanta todo el sistema: MongoDB + backend + frontend.
+#
+#   docker compose up -d --build      -> construir y arrancar
+#   docker compose push               -> subir las imagenes a Docker Hub
+#   docker compose pull && docker compose up -d   -> (en el servidor) usar las imagenes subidas
+#
+# Las variables se pueden definir en un archivo .env junto a este archivo (ver .env.docker.example).
+
+services:
+  mongo:
+    image: mongo:4.4
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./nombre-fundacion-backend
+    image: ${DOCKERHUB_USER:-nombrefundacion}/nombre-fundacion-backend:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    # Correo, administrador inicial, etc.
+    env_file:
+      - ./nombre-fundacion-backend/.env
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/nombre_fundacion}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080}
+      PORT: 3000
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    volumes:
+      - documentos:/home/app/Documents/DocumentosBeneficiarios
+
+  frontend:
+    build: ./nombre-fundacion-frontend
+    image: ${DOCKERHUB_USER:-nombrefundacion}/nombre-fundacion-frontend:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      # URL con la que el NAVEGADOR llega al backend (no la red interna de Docker)
+      API_URL: ${API_URL:-http://localhost:3000}
+      NOMBRE_FUNDACION: ${NOMBRE_FUNDACION:-Nombre Fundación}
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+
+volumes:
+  mongo-data:
+  documentos:

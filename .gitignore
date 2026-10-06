@@ -1,0 +1,2 @@
+# Configuracion local de docker compose (contiene datos sensibles)
+.env

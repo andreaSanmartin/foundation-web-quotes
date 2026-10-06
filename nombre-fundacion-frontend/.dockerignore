@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.angular/
+.vscode/
+.idea/
+e2e/
+*.log
