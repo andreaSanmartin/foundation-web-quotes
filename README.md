@@ -99,8 +99,8 @@ Al iniciar sesión se elige el tipo de usuario junto con la cédula y la contras
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <url-del-repositorio>
-cd <carpeta-del-repositorio>
+git clone https://github.com/andreaSanmartin/foundation-web-quotes.git
+cd foundation-web-quotes
 ```
 
 ### 2. Preparar la base de datos
